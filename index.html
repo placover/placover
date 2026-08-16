@@ -3,159 +3,1078 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Calculadora de presupuesto</title>
+<title>PladurPro</title>
 
 <style>
-* {
-  box-sizing: border-box;
+*{box-sizing:border-box}
+
+body{
+margin:0;
+font-family:Arial,Helvetica,sans-serif;
+background:#f3f5f7;
+color:#1d2730;
+padding-bottom:30px;
 }
 
-body {
-  margin: 0;
-  font-family: Arial, sans-serif;
-  background: #f4f4f4;
-  color: #222;
+header{
+background:#172b3d;
+color:white;
+padding:18px;
+text-align:center;
 }
 
-.contenedor {
-  max-width: 520px;
-  margin: auto;
-  padding: 20px;
+header h1{
+margin:0;
+font-size:28px;
 }
 
-h1 {
-  text-align: center;
-  margin-bottom: 8px;
+header p{
+margin:5px 0 0;
+opacity:.8;
 }
 
-.subtitulo {
-  text-align: center;
-  color: #666;
-  margin-bottom: 25px;
+.contenedor{
+max-width:650px;
+margin:auto;
+padding:15px;
 }
 
-.tarjeta {
-  background: white;
-  padding: 20px;
-  border-radius: 16px;
-  box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+.tarjeta{
+background:white;
+border-radius:16px;
+padding:18px;
+margin-bottom:15px;
+box-shadow:0 3px 12px rgba(0,0,0,.08);
 }
 
-label {
-  display: block;
-  font-weight: bold;
-  margin-top: 16px;
-  margin-bottom: 6px;
+h2{
+margin-top:0;
+font-size:21px;
 }
 
-input {
-  width: 100%;
-  padding: 14px;
-  font-size: 18px;
-  border: 1px solid #ccc;
-  border-radius: 10px;
+h3{
+margin-bottom:8px;
 }
 
-button {
-  width: 100%;
-  margin-top: 24px;
-  padding: 16px;
-  font-size: 18px;
-  font-weight: bold;
-  border: 0;
-  border-radius: 10px;
-  background: #222;
-  color: white;
-  cursor: pointer;
+label{
+display:block;
+font-weight:bold;
+font-size:14px;
+margin-top:13px;
+margin-bottom:5px;
 }
 
-.resultado {
-  margin-top: 25px;
-  padding: 20px;
-  background: #eee;
-  border-radius: 12px;
-  text-align: center;
+input,select{
+width:100%;
+padding:13px;
+font-size:16px;
+border:1px solid #ccd3d8;
+border-radius:9px;
+background:white;
 }
 
-.total {
-  font-size: 32px;
-  font-weight: bold;
-  margin-top: 8px;
+.grid{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:10px;
 }
 
-.nota {
-  margin-top: 15px;
-  font-size: 14px;
-  color: #666;
-  text-align: center;
+button{
+border:0;
+border-radius:10px;
+padding:14px;
+font-size:16px;
+font-weight:bold;
+cursor:pointer;
+}
+
+.boton{
+background:#1679a8;
+color:white;
+width:100%;
+margin-top:12px;
+}
+
+.boton-sec{
+background:#e9eef1;
+color:#172b3d;
+width:100%;
+margin-top:10px;
+}
+
+.partida{
+border:1px solid #dce2e6;
+border-radius:12px;
+padding:12px;
+margin-bottom:10px;
+}
+
+.partida-cabecera{
+display:flex;
+justify-content:space-between;
+align-items:center;
+gap:8px;
+}
+
+.eliminar{
+background:#f8dddd;
+color:#a12626;
+padding:8px 12px;
+}
+
+.total-box{
+background:#e9f6fb;
+border:1px solid #b8dce9;
+border-radius:13px;
+padding:15px;
+}
+
+.fila{
+display:flex;
+justify-content:space-between;
+padding:7px 0;
+}
+
+.fila-total{
+border-top:1px solid #b8dce9;
+margin-top:7px;
+padding-top:12px;
+font-size:24px;
+font-weight:bold;
+}
+
+.aviso{
+margin-top:12px;
+padding:12px;
+border-radius:10px;
+font-weight:bold;
+}
+
+.aviso-ok{
+background:#e5f6eb;
+color:#176936;
+}
+
+.aviso-info{
+background:#fff4d8;
+color:#805b00;
+}
+
+.obra{
+border:1px solid #dce2e6;
+border-radius:12px;
+padding:13px;
+margin-bottom:10px;
+background:white;
+}
+
+.obra strong{
+font-size:17px;
+}
+
+.estado{
+display:inline-block;
+background:#e9eef1;
+border-radius:20px;
+padding:5px 9px;
+font-size:12px;
+margin-top:7px;
+}
+
+.acciones{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:8px;
+margin-top:10px;
+}
+
+.oculto{
+display:none;
+}
+
+.nota{
+font-size:13px;
+color:#66727b;
+line-height:1.4;
+}
+
+@media(max-width:500px){
+.grid{
+grid-template-columns:1fr;
+}
+
+header h1{
+font-size:24px;
+}
 }
 </style>
 </head>
 
 <body>
 
+<header>
+<h1>PladurPro</h1>
+<p>Presupuestos y seguimiento de obras</p>
+</header>
+
 <div class="contenedor">
 
-  <h1>Calculadora de presupuesto</h1>
+<div class="tarjeta">
+<h2>👤 Cliente y obra</h2>
 
-  <div class="subtitulo">
-    Calcula rápidamente cuánto debes cobrar
-  </div>
+<label>Nombre del cliente</label>
+<input id="cliente" placeholder="Ej.: Benito Pérez">
 
-  <div class="tarjeta">
+<div class="grid">
+<div>
+<label>Teléfono</label>
+<input id="telefono" type="tel" placeholder="600123123">
+</div>
 
-    <label>Ganancia mínima (€)</label>
-    <input id="ganancia" type="number" value="200" min="0">
+<div>
+<label>Localidad</label>
+<input id="localidad" placeholder="Alameda de la Sagra">
+</div>
+</div>
 
-    <label>Gastos de material (€)</label>
-    <input id="material" type="number" value="0" min="0" step="0.01">
+<label>Dirección de la obra</label>
+<input id="direccion" placeholder="C/ Mayor 5">
 
-    <label>Kilómetros</label>
-    <input id="km" type="number" value="0" min="0">
+<div class="grid">
+<div>
+<label>Estado</label>
+<select id="estado">
+<option>Presupuesto</option>
+<option>Aceptado</option>
+<option>En curso</option>
+<option>Terminado</option>
+<option>Pendiente de cobro</option>
+<option>Cobrado</option>
+<option>Rechazado</option>
+</select>
+</div>
 
-    <label>Precio por kilómetro (€)</label>
-    <input id="precioKm" type="number" value="0.30" min="0" step="0.01">
+<div>
+<label>Inicio de obra</label>
+<input id="fecha" type="date">
+</div>
+</div>
+</div>
 
-    <button onclick="calcular()">
-      CALCULAR PRESUPUESTO
-    </button>
 
-    <div class="resultado">
-      <div>Total recomendado</div>
-      <div class="total" id="total">200,00 €</div>
-    </div>
+<div class="tarjeta">
+<h2>🧱 Trabajos</h2>
 
-    <div class="nota">
-      El cálculo incluye la ganancia mínima,
-      el material y el kilometraje.
-    </div>
+<div id="partidas"></div>
 
-  </div>
+<button class="boton" onclick="agregarPartida()">
+＋ Añadir trabajo
+</button>
+
+<p class="nota">
+Añade los trabajos que vas a realizar. Puedes cambiar los metros y el precio de cada uno.
+</p>
+</div>
+
+
+<div class="tarjeta">
+<h2>🚚 Gastos y tiempo</h2>
+
+<div class="grid">
+
+<div>
+<label>Kilómetros de ida</label>
+<input id="km" type="number" min="0" step="0.1" value="0" oninput="calcular()">
+</div>
+
+<div>
+<label>Precio por km</label>
+<input id="precioKm" type="number" min="0" step="0.01" value="0.60" oninput="calcular()">
+</div>
 
 </div>
 
+<p class="nota">
+Se calcula automáticamente ida + vuelta desde el primer kilómetro.
+</p>
+
+<div class="grid">
+
+<div>
+<label>Horas extra</label>
+<input id="horas" type="number" min="0" step="0.5" value="0" oninput="calcular()">
+</div>
+
+<div>
+<label>Precio hora</label>
+<input id="precioHora" type="number" min="0" step="1" value="30" oninput="calcular()">
+</div>
+
+</div>
+
+<label>Materiales (€)</label>
+<input id="materiales" type="number" min="0" step="0.01" value="0" oninput="calcular()">
+
+<label>Otros gastos (€)</label>
+<input id="otros" type="number" min="0" step="0.01" value="0" oninput="calcular()">
+
+</div>
+
+
+<div class="tarjeta">
+
+<h2>💰 Presupuesto</h2>
+
+<div class="total-box">
+
+<div class="fila">
+<span>Trabajos</span>
+<strong id="totalTrabajos">0,00 €</strong>
+</div>
+
+<div class="fila">
+<span>Materiales</span>
+<strong id="totalMateriales">0,00 €</strong>
+</div>
+
+<div class="fila">
+<span>Desplazamiento</span>
+<strong id="totalKm">0,00 €</strong>
+</div>
+
+<div class="fila">
+<span>Tiempo extra</span>
+<strong id="totalHoras">0,00 €</strong>
+</div>
+
+<div class="fila">
+<span>Otros gastos</span>
+<strong id="totalOtros">0,00 €</strong>
+</div>
+
+<div class="fila">
+<span>Trabajo mínimo</span>
+<strong>200,00 €</strong>
+</div>
+
+<div class="fila fila-total">
+<span>TOTAL</span>
+<strong id="totalFinal">200,00 €</strong>
+</div>
+
+</div>
+
+<div id="aviso" class="aviso aviso-info">
+Añade algún trabajo para calcular el presupuesto.
+</div>
+
+<button class="boton" onclick="guardarObra()">
+💾 Guardar obra
+</button>
+
+<button class="boton-sec" onclick="nuevoPresupuesto()">
+🧹 Nuevo presupuesto
+</button>
+
+</div>
+
+
+<div class="tarjeta">
+
+<h2>🏠 Mis obras</h2>
+
+<input id="buscar" placeholder="Buscar cliente o localidad" oninput="mostrarObras()">
+
+<div id="listaObras" style="margin-top:12px"></div>
+
+</div>
+
+</div>
+
+
 <script>
-function calcular() {
 
-  const ganancia =
-    parseFloat(document.getElementById("ganancia").value) || 0;
+const tarifas = [
 
-  const material =
-    parseFloat(document.getElementById("material").value) || 0;
+{
+nombre:"Techo continuo",
+unidad:"m²",
+precio:33
+},
 
-  const km =
-    parseFloat(document.getElementById("km").value) || 0;
+{
+nombre:"Trasdosado",
+unidad:"m²",
+precio:31
+},
 
-  const precioKm =
-    parseFloat(document.getElementById("precioKm").value) || 0;
+{
+nombre:"Tabique sencillo",
+unidad:"m²",
+precio:37
+},
 
-  const kilometraje = km * precioKm;
+{
+nombre:"Tabique doble",
+unidad:"m²",
+precio:50
+},
 
-  const total = ganancia + material + kilometraje;
+{
+nombre:"Techo registrable",
+unidad:"m²",
+precio:29
+},
 
-  document.getElementById("total").textContent =
-    total.toFixed(2).replace(".", ",") + " €";
+{
+nombre:"Aislamiento",
+unidad:"m²",
+precio:11
+},
+
+{
+nombre:"Foseado / cortinero",
+unidad:"m.l.",
+precio:42.50
+},
+
+{
+nombre:"Mueble / estantería de Pladur",
+unidad:"ud.",
+precio:450
+},
+
+{
+nombre:"Mueble TV / pared decorativa",
+unidad:"ud.",
+precio:675
+},
+
+{
+nombre:"Isla / cajón suspendido",
+unidad:"m.l.",
+precio:55
+},
+
+{
+nombre:"Hornacina",
+unidad:"ud.",
+precio:105
+},
+
+{
+nombre:"Techo con foso / multinivel",
+unidad:"m²",
+precio:62.50
 }
+
+];
+
+
+let partidas=[];
+let obras=[];
+let obraEditando=null;
+
+
+const euro = numero =>
+new Intl.NumberFormat("es-ES",{
+style:"currency",
+currency:"EUR"
+}).format(numero || 0);
+
+
+function cargarDatos(){
+
+const datos=localStorage.getItem("pladurpro_obras");
+
+if(datos){
+obras=JSON.parse(datos);
+}
+
+}
+
+
+function guardarDatos(){
+
+localStorage.setItem(
+"pladurpro_obras",
+JSON.stringify(obras)
+);
+
+}
+
+
+function agregarPartida(){
+
+const tarifa=tarifas[0];
+
+partidas.push({
+
+nombre:tarifa.nombre,
+unidad:tarifa.unidad,
+cantidad:1,
+precio:tarifa.precio
+
+});
+
+mostrarPartidas();
+calcular();
+
+}
+
+
+function mostrarPartidas(){
+
+const contenedor=document.getElementById("partidas");
+
+if(partidas.length===0){
+
+contenedor.innerHTML=
+"<p class='nota'>Todavía no hay trabajos añadidos.</p>";
+
+return;
+
+}
+
+
+contenedor.innerHTML=partidas.map((p,index)=>`
+
+<div class="partida">
+
+<div class="partida-cabecera">
+
+<strong>Trabajo ${index+1}</strong>
+
+<button class="eliminar"
+onclick="eliminarPartida(${index})">
+Eliminar
+</button>
+
+</div>
+
+<label>Tipo de trabajo</label>
+
+<select onchange="cambiarTarifa(${index},this.value)">
+
+${tarifas.map((t,i)=>`
+
+<option value="${i}"
+${t.nombre===p.nombre ? "selected":""}>
+
+${t.nombre} — ${t.precio.toFixed(2)} €/ ${t.unidad}
+
+</option>
+
+`).join("")}
+
+</select>
+
+
+<div class="grid">
+
+<div>
+
+<label>Cantidad (${p.unidad})</label>
+
+<input
+type="number"
+min="0"
+step="0.01"
+value="${p.cantidad}"
+oninput="cambiarCantidad(${index},this.value)"
+>
+
+</div>
+
+<div>
+
+<label>Precio (€/${p.unidad})</label>
+
+<input
+type="number"
+min="0"
+step="0.01"
+value="${p.precio}"
+oninput="cambiarPrecio(${index},this.value)"
+>
+
+</div>
+
+</div>
+
+<p>
+<strong>
+Subtotal: ${euro(p.cantidad*p.precio)}
+</strong>
+</p>
+
+</div>
+
+`).join("");
+
+}
+
+
+function cambiarTarifa(index,valor){
+
+const tarifa=tarifas[Number(valor)];
+
+partidas[index].nombre=tarifa.nombre;
+partidas[index].unidad=tarifa.unidad;
+partidas[index].precio=tarifa.precio;
+
+mostrarPartidas();
+calcular();
+
+}
+
+
+function cambiarCantidad(index,valor){
+
+partidas[index].cantidad=
+parseFloat(valor)||0;
+
+calcular();
+
+}
+
+
+function cambiarPrecio(index,valor){
+
+partidas[index].precio=
+parseFloat(valor)||0;
+
+calcular();
+
+}
+
+
+function eliminarPartida(index){
+
+partidas.splice(index,1);
+
+mostrarPartidas();
+calcular();
+
+}
+
+
+function calcular(){
+
+const trabajos=partidas.reduce(
+(total,p)=>
+total+(p.cantidad*p.precio),
+0
+);
+
+
+const materiales=
+parseFloat(document.getElementById("materiales").value)||0;
+
+
+const km=
+parseFloat(document.getElementById("km").value)||0;
+
+
+const precioKm=
+parseFloat(document.getElementById("precioKm").value)||0;
+
+
+const horas=
+parseFloat(document.getElementById("horas").value)||0;
+
+
+const precioHora=
+parseFloat(document.getElementById("precioHora").value)||0;
+
+
+const otros=
+parseFloat(document.getElementById("otros").value)||0;
+
+
+/*
+Kilometraje:
+km de ida × 2 × 0,60 €/km
+*/
+
+const desplazamiento=
+km*2*precioKm;
+
+
+/*
+Tiempo extra:
+horas × 30 €/hora
+*/
+
+const tiempoExtra=
+horas*precioHora;
+
+
+/*
+El mínimo de 200 € NO se suma siempre.
+Solo sustituye el precio de los trabajos
+cuando el cálculo de trabajos queda
+por debajo de 200 €.
+*/
+
+const trabajosCobrados=
+trabajos>0
+?Math.max(trabajos,200)
+:0;
+
+
+const total=
+trabajosCobrados+
+materiales+
+desplazamiento+
+tiempoExtra+
+otros;
+
+
+document.getElementById("totalTrabajos").textContent=
+euro(trabajosCobrados);
+
+document.getElementById("totalMateriales").textContent=
+euro(materiales);
+
+document.getElementById("totalKm").textContent=
+euro(desplazamiento);
+
+document.getElementById("totalHoras").textContent=
+euro(tiempoExtra);
+
+document.getElementById("totalOtros").textContent=
+euro(otros);
+
+document.getElementById("totalFinal").textContent=
+euro(total);
+
+
+const aviso=document.getElementById("aviso");
+
+
+if(trabajos===0){
+
+aviso.className="aviso aviso-info";
+
+aviso.textContent=
+"Añade algún trabajo para calcular el presupuesto.";
+
+}
+
+else if(trabajos<200){
+
+aviso.className="aviso aviso-info";
+
+aviso.textContent=
+"⚠️ Los trabajos suman "+
+euro(trabajos)+
+". Se aplica el mínimo de trabajo de 200 €.";
+
+}
+
+else{
+
+aviso.className="aviso aviso-ok";
+
+aviso.textContent=
+"✓ El trabajo supera el mínimo de 200 €. No se añade ningún suplemento.";
+
+}
+
+return total;
+
+}
+
+
+function obtenerDatosObra(){
+
+return {
+
+id:obraEditando || Date.now(),
+
+cliente:
+document.getElementById("cliente").value.trim(),
+
+telefono:
+document.getElementById("telefono").value.trim(),
+
+localidad:
+document.getElementById("localidad").value.trim(),
+
+direccion:
+document.getElementById("direccion").value.trim(),
+
+estado:
+document.getElementById("estado").value,
+
+fecha:
+document.getElementById("fecha").value,
+
+partidas:
+JSON.parse(JSON.stringify(partidas)),
+
+km:
+parseFloat(document.getElementById("km").value)||0,
+
+precioKm:
+parseFloat(document.getElementById("precioKm").value)||0,
+
+horas:
+parseFloat(document.getElementById("horas").value)||0,
+
+precioHora:
+parseFloat(document.getElementById("precioHora").value)||0,
+
+materiales:
+parseFloat(document.getElementById("materiales").value)||0,
+
+otros:
+parseFloat(document.getElementById("otros").value)||0,
+
+total:calcular(),
+
+fechaGuardado:new Date().toISOString()
+
+};
+
+}
+
+
+function guardarObra(){
+
+const cliente=
+document.getElementById("cliente").value.trim();
+
+if(!cliente){
+
+alert("Escribe primero el nombre del cliente.");
+
+return;
+
+}
+
+
+const obra=obtenerDatosObra();
+
+
+if(obraEditando){
+
+const posicion=
+obras.findIndex(o=>o.id===obraEditando);
+
+if(posicion!==-1){
+
+obras[posicion]=obra;
+
+}
+
+}else{
+
+obras.unshift(obra);
+
+}
+
+
+guardarDatos();
+
+alert("✓ Obra guardada correctamente.");
+
+obraEditando=null;
+
+mostrarObras();
+
+}
+
+
+function mostrarObras(){
+
+const contenedor=
+document.getElementById("listaObras");
+
+const texto=
+(document.getElementById("buscar").value||"")
+.toLowerCase();
+
+const filtradas=
+obras.filter(o=>
+(o.cliente+" "+o.localidad+" "+o.direccion)
+.toLowerCase()
+.includes(texto)
+);
+
+
+if(filtradas.length===0){
+
+contenedor.innerHTML=
+"<p class='nota'>No hay obras guardadas.</p>";
+
+return;
+
+}
+
+
+contenedor.innerHTML=
+filtradas.map(o=>`
+
+<div class="obra">
+
+<strong>${escapeHtml(o.cliente)}</strong>
+
+<div>
+${escapeHtml(o.localidad||"")}
+${o.direccion ? " · "+escapeHtml(o.direccion):""}
+</div>
+
+<span class="estado">
+${escapeHtml(o.estado)}
+</span>
+
+<p>
+<strong>${euro(o.total)}</strong>
+</p>
+
+<div class="acciones">
+
+<button class="boton-sec"
+onclick="abrirObra(${o.id})">
+✏️ Abrir
+</button>
+
+<button class="eliminar"
+onclick="eliminarObra(${o.id})">
+🗑️ Borrar
+</button>
+
+</div>
+
+</div>
+
+`).join("");
+
+}
+
+
+function abrirObra(id){
+
+const obra=
+obras.find(o=>o.id===id);
+
+if(!obra)return;
+
+
+obraEditando=id;
+
+
+document.getElementById("cliente").value=obra.cliente||"";
+document.getElementById("telefono").value=obra.telefono||"";
+document.getElementById("localidad").value=obra.localidad||"";
+document.getElementById("direccion").value=obra.direccion||"";
+document.getElementById("estado").value=obra.estado||"Presupuesto";
+document.getElementById("fecha").value=obra.fecha||"";
+
+document.getElementById("km").value=obra.km||0;
+document.getElementById("precioKm").value=obra.precioKm ?? 0.60;
+
+document.getElementById("horas").value=obra.horas||0;
+document.getElementById("precioHora").value=obra.precioHora ?? 30;
+
+document.getElementById("materiales").value=obra.materiales||0;
+document.getElementById("otros").value=obra.otros||0;
+
+
+partidas=
+JSON.parse(JSON.stringify(obra.partidas||[]));
+
+
+mostrarPartidas();
+calcular();
+
+
+window.scrollTo({
+top:0,
+behavior:"smooth"
+});
+
+}
+
+
+function eliminarObra(id){
+
+if(!confirm("¿Seguro que quieres borrar esta obra?"))return;
+
+obras=
+obras.filter(o=>o.id!==id);
+
+guardarDatos();
+mostrarObras();
+
+}
+
+
+function nuevoPresupuesto(){
+
+if(!confirm("¿Crear un presupuesto nuevo?"))return;
+
+
+obraEditando=null;
+partidas=[];
+
+
+[
+"cliente",
+"telefono",
+"localidad",
+"direccion",
+"fecha"
+].forEach(id=>{
+document.getElementById(id).value="";
+});
+
+
+document.getElementById("estado").value="Presupuesto";
+
+document.getElementById("km").value=0;
+document.getElementById("precioKm").value=0.60;
+
+document.getElementById("horas").value=0;
+document.getElementById("precioHora").value=30;
+
+document.getElementById("materiales").value=0;
+document.getElementById("otros").value=0;
+
+
+mostrarPartidas();
+calcular();
+
+
+window.scrollTo({
+top:0,
+behavior:"smooth"
+});
+
+}
+
+
+function escapeHtml(text){
+
+return String(text)
+.replaceAll("&","&amp;")
+.replaceAll("<","&lt;")
+.replaceAll(">","&gt;")
+.replaceAll('"',"&quot;")
+.replaceAll("'","&#039;");
+
+}
+
+
+/* Arranque */
+
+cargarDatos();
+mostrarPartidas();
+calcular();
+mostrarObras();
+
 </script>
 
 </body>
