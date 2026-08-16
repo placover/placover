@@ -1,1 +1,162 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Calculadora de presupuesto</title>
 
+<style>
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: #f4f4f4;
+  color: #222;
+}
+
+.contenedor {
+  max-width: 520px;
+  margin: auto;
+  padding: 20px;
+}
+
+h1 {
+  text-align: center;
+  margin-bottom: 8px;
+}
+
+.subtitulo {
+  text-align: center;
+  color: #666;
+  margin-bottom: 25px;
+}
+
+.tarjeta {
+  background: white;
+  padding: 20px;
+  border-radius: 16px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+}
+
+label {
+  display: block;
+  font-weight: bold;
+  margin-top: 16px;
+  margin-bottom: 6px;
+}
+
+input {
+  width: 100%;
+  padding: 14px;
+  font-size: 18px;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+}
+
+button {
+  width: 100%;
+  margin-top: 24px;
+  padding: 16px;
+  font-size: 18px;
+  font-weight: bold;
+  border: 0;
+  border-radius: 10px;
+  background: #222;
+  color: white;
+  cursor: pointer;
+}
+
+.resultado {
+  margin-top: 25px;
+  padding: 20px;
+  background: #eee;
+  border-radius: 12px;
+  text-align: center;
+}
+
+.total {
+  font-size: 32px;
+  font-weight: bold;
+  margin-top: 8px;
+}
+
+.nota {
+  margin-top: 15px;
+  font-size: 14px;
+  color: #666;
+  text-align: center;
+}
+</style>
+</head>
+
+<body>
+
+<div class="contenedor">
+
+  <h1>Calculadora de presupuesto</h1>
+
+  <div class="subtitulo">
+    Calcula rápidamente cuánto debes cobrar
+  </div>
+
+  <div class="tarjeta">
+
+    <label>Ganancia mínima (€)</label>
+    <input id="ganancia" type="number" value="200" min="0">
+
+    <label>Gastos de material (€)</label>
+    <input id="material" type="number" value="0" min="0" step="0.01">
+
+    <label>Kilómetros</label>
+    <input id="km" type="number" value="0" min="0">
+
+    <label>Precio por kilómetro (€)</label>
+    <input id="precioKm" type="number" value="0.30" min="0" step="0.01">
+
+    <button onclick="calcular()">
+      CALCULAR PRESUPUESTO
+    </button>
+
+    <div class="resultado">
+      <div>Total recomendado</div>
+      <div class="total" id="total">200,00 €</div>
+    </div>
+
+    <div class="nota">
+      El cálculo incluye la ganancia mínima,
+      el material y el kilometraje.
+    </div>
+
+  </div>
+
+</div>
+
+<script>
+function calcular() {
+
+  const ganancia =
+    parseFloat(document.getElementById("ganancia").value) || 0;
+
+  const material =
+    parseFloat(document.getElementById("material").value) || 0;
+
+  const km =
+    parseFloat(document.getElementById("km").value) || 0;
+
+  const precioKm =
+    parseFloat(document.getElementById("precioKm").value) || 0;
+
+  const kilometraje = km * precioKm;
+
+  const total = ganancia + material + kilometraje;
+
+  document.getElementById("total").textContent =
+    total.toFixed(2).replace(".", ",") + " €";
+}
+</script>
+
+</body>
+</html>
