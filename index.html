@@ -253,7 +253,7 @@ header h1{font-size:24px}
 
 <div id="partidas"></div>
 
-<button class="boton" onclick="agregarPartida()">
+<button class="boton" onclick id="agregarPartida()">
 ＋ Añadir trabajo
 </button>
 
@@ -1064,7 +1064,10 @@ mostrarPartidas();
 calcular();
 
 mostrarObras();
-
+  
+document.getElementById("btnAgregarTrabajo")
+.addEventListener("click", agregarPartida);
+  
 </script>
 
 </body>
