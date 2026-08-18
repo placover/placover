@@ -10,7 +10,7 @@
 
 body{
 margin:0;
-font-family:Arial,Helvetica,sans-serif;ipt
+font-family:Arial,Helvetica,sans-serif;
 background:#f3f5f7;
 color:#1d2730;
 padding-bottom:30px
@@ -40,7 +40,10 @@ margin-bottom:15px;
 box-shadow:0 3px 12px rgba(0,0,0,.08)
 }
 
-h2{margin-top:0;font-size:21px}
+h2{
+margin-top:0;
+font-size:21px
+}
 
 label{
 display:block;
@@ -154,7 +157,9 @@ margin-bottom:10px;
 background:white
 }
 
-.obra strong{font-size:17px}
+.obra strong{
+font-size:17px
+}
 
 .estado{
 display:inline-block;
@@ -179,8 +184,13 @@ line-height:1.4
 }
 
 @media(max-width:500px){
-.grid{grid-template-columns:1fr}
-header h1{font-size:24px}
+.grid{
+grid-template-columns:1fr
+}
+
+header h1{
+font-size:24px
+}
 }
 </style>
 </head>
@@ -224,7 +234,6 @@ header h1{font-size:24px}
 <label>Estado</label>
 
 <select id="estado">
-
 <option>Presupuesto</option>
 <option>Aceptado</option>
 <option>En curso</option>
@@ -232,7 +241,6 @@ header h1{font-size:24px}
 <option>Pendiente de cobro</option>
 <option>Cobrado</option>
 <option>Rechazado</option>
-
 </select>
 
 </div>
@@ -253,7 +261,7 @@ header h1{font-size:24px}
 
 <div id="partidas"></div>
 
-<button class="boton" onclick id="agregarPartida()">
+<button type="button" class="boton" id="btnAgregarTrabajo">
 ＋ Añadir trabajo
 </button>
 
@@ -272,12 +280,12 @@ La primera partida aparece automáticamente. Añade más solo cuando las necesit
 
 <div>
 <label>Kilómetros de ida</label>
-<input id="km" type="number" min="0" step="0.1" value="0" oninput="calcular()">
+<input id="km" type="number" min="0" step="0.1" value="0">
 </div>
 
 <div>
 <label>Precio por km</label>
-<input id="precioKm" type="number" min="0" step="0.01" value="0.60" oninput="calcular()">
+<input id="precioKm" type="number" min="0" step="0.01" value="0.60">
 </div>
 
 </div>
@@ -290,21 +298,21 @@ El desplazamiento se calcula automáticamente ida + vuelta desde el primer kiló
 
 <div>
 <label>Horas extra</label>
-<input id="horas" type="number" min="0" step="0.5" value="0" oninput="calcular()">
+<input id="horas" type="number" min="0" step="0.5" value="0">
 </div>
 
 <div>
 <label>Precio hora</label>
-<input id="precioHora" type="number" min="0" step="1" value="30" oninput="calcular()">
+<input id="precioHora" type="number" min="0" step="1" value="30">
 </div>
 
 </div>
 
 <label>Materiales (€)</label>
-<input id="materiales" type="number" min="0" step="0.01" value="0" oninput="calcular()">
+<input id="materiales" type="number" min="0" step="0.01" value="0">
 
 <label>Otros gastos (€)</label>
-<input id="otros" type="number" min="0" step="0.01" value="0" oninput="calcular()">
+<input id="otros" type="number" min="0" step="0.01" value="0">
 
 </div>
 
@@ -353,14 +361,14 @@ El desplazamiento se calcula automáticamente ida + vuelta desde el primer kiló
 </div>
 
 <div id="aviso" class="aviso aviso-info">
-Añade algún trabajo para calcular el presupuesto.
+Añade los metros del trabajo para calcular el presupuesto.
 </div>
 
-<button class="boton" onclick="guardarObra()">
+<button type="button" class="boton" id="btnGuardar">
 💾 Guardar obra
 </button>
 
-<button class="boton-sec" onclick="nuevoPresupuesto()">
+<button type="button" class="boton-sec" id="btnNuevo">
 🧹 Nuevo presupuesto
 </button>
 
@@ -371,7 +379,7 @@ Añade algún trabajo para calcular el presupuesto.
 
 <h2>🏠 Mis obras</h2>
 
-<input id="buscar" placeholder="Buscar cliente o localidad" oninput="mostrarObras()">
+<input id="buscar" placeholder="Buscar cliente o localidad">
 
 <div id="listaObras" style="margin-top:12px"></div>
 
@@ -381,45 +389,114 @@ Añade algún trabajo para calcular el presupuesto.
 
 
 <script>
-function euro(valor)
-  retum Number(valor ||0)toLocaleString("es-ES",
-      minimumFractionDigits:2,
-      maximumFractionDigits:2
-  )+"€";
+
+/* =========================
+   FORMATO DE EUROS
+========================= */
+
+function euro(valor){
+
+return Number(valor || 0).toLocaleString("es-ES",{
+minimumFractionDigits:2,
+maximumFractionDigits:2
+})+" €";
+
+}
+
+
+/* =========================
+   TARIFAS
+========================= */
 
 const tarifas=[
 
-{nombre:"Techo continuo",unidad:"m²",precio:33},
+{
+nombre:"Techo continuo",
+unidad:"m²",
+precio:33
+},
 
-{nombre:"Trasdosado",unidad:"m²",precio:31},
+{
+nombre:"Trasdosado",
+unidad:"m²",
+precio:31
+},
 
-{nombre:"Tabique sencillo",unidad:"m²",precio:37},
+{
+nombre:"Tabique sencillo",
+unidad:"m²",
+precio:37
+},
 
-{nombre:"Tabique doble",unidad:"m²",precio:50},
+{
+nombre:"Tabique doble",
+unidad:"m²",
+precio:50
+},
 
-{nombre:"Techo registrable",unidad:"m²",precio:29},
+{
+nombre:"Techo registrable",
+unidad:"m²",
+precio:29
+},
 
-{nombre:"Aislamiento",unidad:"m²",precio:11},
+{
+nombre:"Aislamiento",
+unidad:"m²",
+precio:11
+},
 
-{nombre:"Foseado / cortinero",unidad:"m.l.",precio:42.50},
+{
+nombre:"Foseado / cortinero",
+unidad:"m.l.",
+precio:42.50
+},
 
-{nombre:"Mueble / estantería de Pladur",unidad:"ud.",precio:450},
+{
+nombre:"Mueble / estantería de Pladur",
+unidad:"ud.",
+precio:450
+},
 
-{nombre:"Mueble TV / pared decorativa",unidad:"ud.",precio:675},
+{
+nombre:"Mueble TV / pared decorativa",
+unidad:"ud.",
+precio:675
+},
 
-{nombre:"Isla / cajón suspendido",unidad:"m.l.",precio:55},
+{
+nombre:"Isla / cajón suspendido",
+unidad:"m.l.",
+precio:55
+},
 
-{nombre:"Hornacina",unidad:"ud.",precio:105},
+{
+nombre:"Hornacina",
+unidad:"ud.",
+precio:105
+},
 
-{nombre:"Techo con foso / multinivel",unidad:"m²",precio:62.50}
+{
+nombre:"Techo con foso / multinivel",
+unidad:"m²",
+precio:62.50
+}
 
 ];
 
+
+/* =========================
+   VARIABLES
+========================= */
 
 let partidas=[];
 let obras=[];
 let obraEditando=null;
 
+
+/* =========================
+   PRIMER TRABAJO
+========================= */
 
 function crearPrimeraPartida(){
 
@@ -435,17 +512,33 @@ precio:33
 }
 
 
+/* =========================
+   LOCAL STORAGE
+========================= */
+
 function cargarDatos(){
 
 const datos=localStorage.getItem("pladurpro_obras");
 
-if(datos){
+if(!datos){
+
+obras=[];
+
+return;
+
+}
 
 try{
+
 obras=JSON.parse(datos);
-}catch(e){
+
+if(!Array.isArray(obras)){
 obras=[];
 }
+
+}catch(e){
+
+obras=[];
 
 }
 
@@ -462,6 +555,10 @@ JSON.stringify(obras)
 }
 
 
+/* =========================
+   AÑADIR TRABAJO
+========================= */
+
 function agregarPartida(){
 
 const tarifa=tarifas[0];
@@ -476,14 +573,24 @@ precio:tarifa.precio
 });
 
 mostrarPartidas();
+
 calcular();
 
 }
 
 
+/* =========================
+   MOSTRAR TRABAJOS
+========================= */
+
 function mostrarPartidas(){
 
-const contenedor=document.getElementById("partidas");
+const contenedor=
+document.getElementById("partidas");
+
+if(!contenedor){
+return;
+}
 
 if(partidas.length===0){
 
@@ -503,8 +610,10 @@ contenedor.innerHTML=partidas.map((p,index)=>`
 
 <strong>Trabajo ${index+1}</strong>
 
-<button class="eliminar"
-onclick="eliminarPartida(${index})">
+<button
+type="button"
+class="eliminar"
+data-eliminar="${index}">
 Eliminar
 </button>
 
@@ -512,14 +621,15 @@ Eliminar
 
 <label>Tipo de trabajo</label>
 
-<select onchange="cambiarTarifa(${index},this.value)">
+<select data-tarifa="${index}">
 
 ${tarifas.map((t,i)=>`
 
-<option value="${i}"
+<option
+value="${i}"
 ${t.nombre===p.nombre?"selected":""}>
 
-${t.nombre} — ${t.precio.toFixed(2)} €/${t.unidad}
+${t.nombre} — ${euro(t.precio)}/${t.unidad}
 
 </option>
 
@@ -539,8 +649,7 @@ type="number"
 min="0"
 step="0.01"
 value="${p.cantidad}"
-oninput="cambiarCantidad(${index},this.value)"
->
+data-cantidad="${index}">
 
 </div>
 
@@ -553,8 +662,7 @@ type="number"
 min="0"
 step="0.01"
 value="${p.precio}"
-oninput="cambiarPrecio(${index},this.value)"
->
+data-precio="${index}">
 
 </div>
 
@@ -570,22 +678,102 @@ Subtotal: ${euro(p.cantidad*p.precio)}
 
 `).join("");
 
+
+/* Eventos de trabajos */
+
+contenedor
+.querySelectorAll("[data-eliminar]")
+.forEach(boton=>{
+
+boton.addEventListener("click",function(){
+
+eliminarPartida(
+Number(this.dataset.eliminar)
+);
+
+});
+
+});
+
+
+contenedor
+.querySelectorAll("[data-tarifa]")
+.forEach(select=>{
+
+select.addEventListener("change",function(){
+
+cambiarTarifa(
+Number(this.dataset.tarifa),
+this.value
+);
+
+});
+
+});
+
+
+contenedor
+.querySelectorAll("[data-cantidad]")
+.forEach(input=>{
+
+input.addEventListener("input",function(){
+
+cambiarCantidad(
+Number(this.dataset.cantidad),
+this.value
+);
+
+});
+
+});
+
+
+contenedor
+.querySelectorAll("[data-precio]")
+.forEach(input=>{
+
+input.addEventListener("input",function(){
+
+cambiarPrecio(
+Number(this.dataset.precio),
+this.value
+);
+
+});
+
+});
+
 }
 
+
+/* =========================
+   CAMBIAR TARIFA
+========================= */
 
 function cambiarTarifa(index,valor){
 
 const tarifa=tarifas[Number(valor)];
 
+if(!tarifa){
+return;
+}
+
 partidas[index].nombre=tarifa.nombre;
+
 partidas[index].unidad=tarifa.unidad;
+
 partidas[index].precio=tarifa.precio;
 
 mostrarPartidas();
+
 calcular();
 
 }
 
+
+/* =========================
+   CAMBIAR CANTIDAD
+========================= */
 
 function cambiarCantidad(index,valor){
 
@@ -593,10 +781,15 @@ partidas[index].cantidad=
 parseFloat(valor)||0;
 
 actualizarSubtotales();
+
 calcular();
 
 }
 
+
+/* =========================
+   CAMBIAR PRECIO
+========================= */
 
 function cambiarPrecio(index,valor){
 
@@ -604,14 +797,21 @@ partidas[index].precio=
 parseFloat(valor)||0;
 
 actualizarSubtotales();
+
 calcular();
 
 }
 
 
+/* =========================
+   ACTUALIZAR SUBTOTALES
+========================= */
+
 function actualizarSubtotales(){
 
-document.querySelectorAll(".partida").forEach((elemento,index)=>{
+document
+.querySelectorAll(".partida")
+.forEach((elemento,index)=>{
 
 const subtotal=
 partidas[index].cantidad*
@@ -632,22 +832,32 @@ texto.textContent=
 }
 
 
+/* =========================
+   ELIMINAR TRABAJO
+========================= */
+
 function eliminarPartida(index){
 
 partidas.splice(index,1);
 
 mostrarPartidas();
+
 calcular();
 
 }
 
+
+/* =========================
+   CALCULAR PRESUPUESTO
+========================= */
 
 function calcular(){
 
 const trabajos=partidas.reduce(
 
 (total,p)=>
-total+(p.cantidad*p.precio),
+total+
+(p.cantidad*p.precio),
 
 0
 
@@ -655,37 +865,62 @@ total+(p.cantidad*p.precio),
 
 
 const materiales=
-parseFloat(document.getElementById("materiales").value)||0;
+parseFloat(
+document.getElementById("materiales").value
+)||0;
+
 
 const km=
-parseFloat(document.getElementById("km").value)||0;
+parseFloat(
+document.getElementById("km").value
+)||0;
+
 
 const precioKm=
-parseFloat(document.getElementById("precioKm").value)||0;
+parseFloat(
+document.getElementById("precioKm").value
+)||0;
+
 
 const horas=
-parseFloat(document.getElementById("horas").value)||0;
+parseFloat(
+document.getElementById("horas").value
+)||0;
+
 
 const precioHora=
-parseFloat(document.getElementById("precioHora").value)||0;
+parseFloat(
+document.getElementById("precioHora").value
+)||0;
+
 
 const otros=
-parseFloat(document.getElementById("otros").value)||0;
+parseFloat(
+document.getElementById("otros").value
+)||0;
 
+
+/* Ida + vuelta */
 
 const desplazamiento=
 km*2*precioKm;
 
 
+/* Horas */
+
 const tiempoExtra=
 horas*precioHora;
 
+
+/* Mínimo 200 € */
 
 const trabajosCobrados=
 trabajos>0
 ?Math.max(trabajos,200)
 :0;
 
+
+/* Total */
 
 const total=
 trabajosCobrados+
@@ -695,31 +930,35 @@ tiempoExtra+
 otros;
 
 
-document.getElementById("totalTrabajos").textContent=
-euro(trabajosCobrados);
+/* Mostrar */
 
-document.getElementById("totalMateriales").textContent=
-euro(materiales);
+document.getElementById("totalTrabajos")
+.textContent=euro(trabajosCobrados);
 
-document.getElementById("totalKm").textContent=
-euro(desplazamiento);
+document.getElementById("totalMateriales")
+.textContent=euro(materiales);
 
-document.getElementById("totalHoras").textContent=
-euro(tiempoExtra);
+document.getElementById("totalKm")
+.textContent=euro(desplazamiento);
 
-document.getElementById("totalOtros").textContent=
-euro(otros);
+document.getElementById("totalHoras")
+.textContent=euro(tiempoExtra);
 
-document.getElementById("totalFinal").textContent=
-euro(total);
+document.getElementById("totalOtros")
+.textContent=euro(otros);
+
+document.getElementById("totalFinal")
+.textContent=euro(total);
 
 
-const aviso=document.getElementById("aviso");
+const aviso=
+document.getElementById("aviso");
 
 
 if(trabajos===0){
 
-aviso.className="aviso aviso-info";
+aviso.className=
+"aviso aviso-info";
 
 aviso.textContent=
 "Añade los metros del trabajo para calcular el presupuesto.";
@@ -728,7 +967,8 @@ aviso.textContent=
 
 else if(trabajos<200){
 
-aviso.className="aviso aviso-info";
+aviso.className=
+"aviso aviso-info";
 
 aviso.textContent=
 "⚠️ Los trabajos suman "+
@@ -739,17 +979,23 @@ euro(trabajos)+
 
 else{
 
-aviso.className="aviso aviso-ok";
+aviso.className=
+"aviso aviso-ok";
 
 aviso.textContent=
 "✓ El trabajo supera el mínimo de 200 €. No se añade ningún suplemento.";
 
 }
 
+
 return total;
 
 }
 
+
+/* =========================
+   OBTENER DATOS
+========================= */
 
 function obtenerDatosObra(){
 
@@ -779,53 +1025,79 @@ partidas:
 JSON.parse(JSON.stringify(partidas)),
 
 km:
-parseFloat(document.getElementById("km").value)||0,
+parseFloat(
+document.getElementById("km").value
+)||0,
 
 precioKm:
-parseFloat(document.getElementById("precioKm").value)||0,
+parseFloat(
+document.getElementById("precioKm").value
+)||0.60,
 
 horas:
-parseFloat(document.getElementById("horas").value)||0,
+parseFloat(
+document.getElementById("horas").value
+)||0,
 
 precioHora:
-parseFloat(document.getElementById("precioHora").value)||0,
+parseFloat(
+document.getElementById("precioHora").value
+)||30,
 
 materiales:
-parseFloat(document.getElementById("materiales").value)||0,
+parseFloat(
+document.getElementById("materiales").value
+)||0,
 
 otros:
-parseFloat(document.getElementById("otros").value)||0,
+parseFloat(
+document.getElementById("otros").value
+)||0,
 
 total:calcular(),
 
-fechaGuardado:new Date().toISOString()
+fechaGuardado:
+new Date().toISOString()
 
 };
 
 }
 
 
+/* =========================
+   GUARDAR OBRA
+========================= */
+
 function guardarObra(){
 
 const cliente=
-document.getElementById("cliente").value.trim();
+document.getElementById("cliente")
+.value
+.trim();
+
 
 if(!cliente){
 
-alert("Escribe primero el nombre del cliente.");
+alert(
+"Escribe primero el nombre del cliente."
+);
 
 return;
 
 }
 
 
-const obra=obtenerDatosObra();
+const obra=
+obtenerDatosObra();
 
 
 if(obraEditando){
 
 const posicion=
-obras.findIndex(o=>o.id===obraEditando);
+obras.findIndex(
+o=>o.id===obraEditando
+);
+
 
 if(posicion!==-1){
 
@@ -842,7 +1114,9 @@ obras.unshift(obra);
 
 guardarDatos();
 
-alert("✓ Obra guardada correctamente.");
+alert(
+"✓ Obra guardada correctamente."
+);
 
 obraEditando=null;
 
@@ -851,21 +1125,36 @@ mostrarObras();
 }
 
 
+/* =========================
+   MOSTRAR OBRAS
+========================= */
+
 function mostrarObras(){
 
 const contenedor=
 document.getElementById("listaObras");
 
+
 const texto=
-(document.getElementById("buscar").value||"")
+(
+document.getElementById("buscar").value||""
+)
 .toLowerCase();
 
 
 const filtradas=
 obras.filter(o=>
-(o.cliente+" "+o.localidad+" "+o.direccion)
+
+(
+(o.cliente||"")+
+" "+
+(o.localidad||"")+
+" "+
+(o.direccion||"")
+)
 .toLowerCase()
 .includes(texto)
+
 );
 
 
@@ -885,30 +1174,43 @@ filtradas.map(o=>`
 
 <div class="obra">
 
-<strong>${escapeHtml(o.cliente)}</strong>
+<strong>
+${escapeHtml(o.cliente)}
+</strong>
 
 <div>
+
 ${escapeHtml(o.localidad||"")}
-${o.direccion?" · "+escapeHtml(o.direccion):""}
+
+${o.direccion
+?" · "+escapeHtml(o.direccion)
+:""}
+
 </div>
 
 <span class="estado">
-${escapeHtml(o.estado)}
+${escapeHtml(o.estado||"Presupuesto")}
 </span>
 
 <p>
-<strong>${euro(o.total)}</strong>
+<strong>
+${euro(o.total)}
+</strong>
 </p>
 
 <div class="acciones">
 
-<button class="boton-sec"
-onclick="abrirObra(${o.id})">
+<button
+type="button"
+class="boton-sec"
+data-abrir="${o.id}">
 ✏️ Abrir
 </button>
 
-<button class="eliminar"
-onclick="eliminarObra(${o.id})">
+<button
+type="button"
+class="eliminar"
+data-borrar="${o.id}">
 🗑️ Borrar
 </button>
 
@@ -918,27 +1220,69 @@ onclick="eliminarObra(${o.id})">
 
 `).join("");
 
+
+/* Eventos */
+
+contenedor
+.querySelectorAll("[data-abrir]")
+.forEach(boton=>{
+
+boton.addEventListener("click",function(){
+
+abrirObra(
+Number(this.dataset.abrir)
+);
+
+});
+
+});
+
+
+contenedor
+.querySelectorAll("[data-borrar]")
+.forEach(boton=>{
+
+boton.addEventListener("click",function(){
+
+eliminarObra(
+Number(this.dataset.borrar)
+);
+
+});
+
+});
+
 }
 
+
+/* =========================
+   ABRIR OBRA
+========================= */
 
 function abrirObra(id){
 
 const obra=
 obras.find(o=>o.id===id);
 
-if(!obra)return;
+if(!obra){
+return;
+}
 
 
 obraEditando=id;
 
 
-document.getElementById("cliente").value=obra.cliente||"";
+document.getElementById("cliente").value=
+obra.cliente||"";
 
-document.getElementById("telefono").value=obra.telefono||"";
+document.getElementById("telefono").value=
+obra.telefono||"";
 
-document.getElementById("localidad").value=obra.localidad||"";
+document.getElementById("localidad").value=
+obra.localidad||"";
 
-document.getElementById("direccion").value=obra.direccion||"";
+document.getElementById("direccion").value=
+obra.direccion||"";
 
 document.getElementById("estado").value=
 obra.estado||"Presupuesto";
@@ -947,12 +1291,14 @@ document.getElementById("fecha").value=
 obra.fecha||"";
 
 
-document.getElementById("km").value=obra.km||0;
+document.getElementById("km").value=
+obra.km||0;
 
 document.getElementById("precioKm").value=
 obra.precioKm??0.60;
 
-document.getElementById("horas").value=obra.horas||0;
+document.getElementById("horas").value=
+obra.horas||0;
 
 document.getElementById("precioHora").value=
 obra.precioHora??30;
@@ -965,12 +1311,17 @@ obra.otros||0;
 
 
 partidas=
-JSON.parse(JSON.stringify(obra.partidas||[]));
+JSON.parse(
+JSON.stringify(
+obra.partidas||[]
+)
+);
 
 
 mostrarPartidas();
 
 calcular();
+
 
 window.scrollTo({
 top:0,
@@ -980,13 +1331,28 @@ behavior:"smooth"
 }
 
 
+/* =========================
+   ELIMINAR OBRA
+========================= */
+
 function eliminarObra(id){
 
-if(!confirm("¿Seguro que quieres borrar esta obra?"))
+if(
+!confirm(
+"¿Seguro que quieres borrar esta obra?"
+)
+){
+
 return;
 
+}
+
+
 obras=
-obras.filter(o=>o.id!==id);
+obras.filter(
+o=>o.id!==id
+);
+
 
 guardarDatos();
 
@@ -995,10 +1361,21 @@ mostrarObras();
 }
 
 
+/* =========================
+   NUEVO PRESUPUESTO
+========================= */
+
 function nuevoPresupuesto(){
 
-if(!confirm("¿Crear un presupuesto nuevo?"))
+if(
+!confirm(
+"¿Crear un presupuesto nuevo?"
+)
+){
+
 return;
+
+}
 
 
 obraEditando=null;
@@ -1041,15 +1418,14 @@ calcular();
 window.scrollTo({
 top:0,
 behavior:"smooth"
-function euro (valor)
-
-retum Number(valor||0).toLocaleString("es-ES",
-minimumFractionDigits:2
-maximumfractiondigits:2
-})+"€";
+});
 
 }
 
+
+/* =========================
+   SEGURIDAD HTML
+========================= */
 
 function escapeHtml(text){
 
@@ -1063,7 +1439,65 @@ return String(text)
 }
 
 
-/* Inicio */
+/* =========================
+   EVENTOS GENERALES
+========================= */
+
+document
+.getElementById("btnAgregarTrabajo")
+.addEventListener(
+"click",
+agregarPartida
+);
+
+
+document
+.getElementById("btnGuardar")
+.addEventListener(
+"click",
+guardarObra
+);
+
+
+document
+.getElementById("btnNuevo")
+.addEventListener(
+"click",
+nuevoPresupuesto
+);
+
+
+document
+.getElementById("buscar")
+.addEventListener(
+"input",
+mostrarObras
+);
+
+
+[
+"km",
+"precioKm",
+"horas",
+"precioHora",
+"materiales",
+"otros"
+]
+.forEach(id=>{
+
+document
+.getElementById(id)
+.addEventListener(
+"input",
+calcular
+);
+
+});
+
+
+/* =========================
+   INICIO
+========================= */
 
 cargarDatos();
 
@@ -1074,10 +1508,7 @@ mostrarPartidas();
 calcular();
 
 mostrarObras();
-  
-document.getElementById("btnAgregarTrabajo")
-.addEventListener("click", agregarPartida);
-  
+
 </script>
 
 </body>
