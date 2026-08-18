@@ -10,7 +10,7 @@
 
 body{
 margin:0;
-font-family:Arial,Helvetica,sans-serif;
+font-family:Arial,Helvetica,sans-serif;ipt
 background:#f3f5f7;
 color:#1d2730;
 padding-bottom:30px
@@ -381,6 +381,11 @@ Añade algún trabajo para calcular el presupuesto.
 
 
 <script>
+function euro(valor)
+  retum Number(valor ||0)toLocaleString("es-ES",
+      minimumFractionDigits:2,
+      maximumFractionDigits:2
+  )+"€";
 
 const tarifas=[
 
