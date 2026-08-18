@@ -1036,7 +1036,12 @@ calcular();
 window.scrollTo({
 top:0,
 behavior:"smooth"
-});
+function euro (valor)
+
+retum Number(valor||0).toLocaleString("es-ES",
+minimumFractionDigits:2
+maximumfractiondigits:2
+})+"€";
 
 }
 
